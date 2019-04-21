@@ -1,8 +1,12 @@
 #! /usr/bin/env python
 
 import sys
+import pysam
 
 input_file = sys.argv[1]
+
+# exac_db = pysam.Tabixfile("gnomad.exomes.r2.1.1.sites.vcf.bgz")
+exac_db = pysam.Tabixfile("https://storage.googleapis.com/gnomad-public/release/2.1.1/vcf/genomes/gnomad.genomes.r2.1.1.sites.vcf.bgz")
 
 with open(input_file, 'r') as hin:
     header2ind = {}
@@ -10,7 +14,7 @@ with open(input_file, 'r') as hin:
     for i, cname in enumerate(header):
         header2ind[cname] = i
 
-    print '\t'.join(header)
+    print '\t'.join(header) + '\t' + "ExAC"
 
     for line in hin:
         F = line.rstrip('\n').split('\t')
@@ -23,6 +27,25 @@ with open(input_file, 'r') as hin:
         if float(ir_p) / (ir_p + ir_n) < 0.9: continue
         if float(ir_p) / (ir_p + sj_p) < 0.9: continue
 
-        print '\t'.join(F)
+        chr_mut = F[header2ind["Chr_Mut"]]
+        start_mut = int(F[header2ind["Start_Mut"]])  
+        end_mut = int(F[header2ind["End_Mut"]])
+        ref_mut = F[header2ind["Ref_Mut"]]
+        alt_mut = F[header2ind["Alt_Mut"]] 
+
+        AF = 0
+        for record_line in exac_db.fetch(chr_mut, start_mut - 3, end_mut + 3):
+            record = record_line.split('\t')
+            if record[0] != chr_mut: continue
+            if record[1] != str(start_mut): continue
+            if record[3] != ref_mut: continue
+            if record[4] != alt_mut: continue
+
+            infos = record[7].split(';')
+            for info in infos:
+                if info.startswith("AF="):
+                    AF = float(info.replace("AF=", ''))
+                                           
+        print '\t'.join(F) + '\t' + str(round(AF, 4))
 
 
