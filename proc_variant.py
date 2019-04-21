@@ -60,8 +60,8 @@ with open(input_file, 'r') as hin:
             sys.exit()
 
         depth = 0
-        base2num = {'A': 0, 'C': 0, 'G': 0, 'T': 0, 'a': 0, 'c': 0, 'g': 0, 't': 0}
-        base2pos = {'A': [], 'C': [], 'G': [], 'T': [], 'a': [], 'c': [], 'g': [], 't': []}
+        base2num = {'A': 0, 'C': 0, 'G': 0, 'T': 0, 'N': 0, 'a': 0, 'c': 0, 'g': 0, 't': 0, 'n': 0}
+        base2pos = {'A': [], 'C': [], 'G': [], 'T': [], 'N': [], 'a': [], 'c': [], 'g': [], 't': [], 'n': []}
         for i in range(len(F4)):
             if F4[i] in ['>', '<', '*']: continue
             depth = depth + 1
