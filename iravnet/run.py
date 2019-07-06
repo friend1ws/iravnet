@@ -51,8 +51,9 @@ def iravnet_main(args):
     
     filter_irav(args.output_file + ".tmp3", args.output_file, args.gnomad_exome, args.gnomad_genome)
 
-    subprocess.check_call(["rm", "-rf", args.output_file + ".tmp1"])
-    subprocess.check_call(["rm", "-rf", args.output_file + ".tmp2"])
-    subprocess.check_call(["rm", "-rf", args.output_file + ".tmp3"])
+    if not args.debug:
+        subprocess.check_call(["rm", "-rf", args.output_file + ".tmp1"])
+        subprocess.check_call(["rm", "-rf", args.output_file + ".tmp2"])
+        subprocess.check_call(["rm", "-rf", args.output_file + ".tmp3"])
 
  

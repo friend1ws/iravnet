@@ -35,6 +35,8 @@ def create_parser():
     parser.add_argument("--min_mapq", type = int, default = 20,
                         help = "the threshould of mapping quality to count on the mpileup process for detecting candidate variants")
 
+    parser.add_argument("--debug", default = False, action = 'store_true', help = "keep intermediate files")
+
     """
     parser.add_argument("--effect_size_thres", type = float, default = 3.0,
                         help = "the thresould of effect size estimator used for simple edge pruning (default: %(default)s")
