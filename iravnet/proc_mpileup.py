@@ -107,7 +107,7 @@ def proc_mpileup(input_file, output_file, seqlen, min_variant_num = 3, min_varia
             if bvar.startswith('-'): 
                 ref = bvar[1:]
                 alt = '-'
-                start, end = str(int(start) + 1), str(int(start) + len(alt))
+                start, end = str(int(start) + 1), str(int(start) + len(ref))
             if bvar.startswith('+'):
                 ref = '-'
                 alt = bvar[1:]
