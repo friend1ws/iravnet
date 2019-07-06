@@ -105,11 +105,12 @@ def proc_mpileup(input_file, output_file, seqlen, min_variant_num = 3, min_varia
 
             start, end, ref, alt = F[1], F[1], F[2], bvar
             if bvar.startswith('-'): 
-                ref = '-'
-                alt = bvar[1:]
-            if bvar.startswith('+'):
                 ref = bvar[1:]
                 alt = '-'
+                start, end = str(int(start) + 1), str(int(start) + len(alt))
+            if bvar.startswith('+'):
+                ref = '-'
+                alt = bvar[1:]
 
             print('\t'.join([F[0], start, end, ref, alt, str(round(bmis_rate, 4)), str(depth_p + depth_n), str(var2num[bvar]),
                              str(round(strand_ratio, 4)), var_info]), file = hout)

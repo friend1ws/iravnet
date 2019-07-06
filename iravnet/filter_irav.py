@@ -9,7 +9,14 @@ import pysam
 # gnomad_genome_db = pysam.Tabixfile("gnomad.genomes.r2.1.1.sites.vcf.bgz")
 # exac_db = pysam.Tabixfile("https://storage.googleapis.com/gnomad-public/release/2.1.1/vcf/genomes/gnomad.genomes.r2.1.1.sites.vcf.bgz")
 
-def filter_irav(input_file, output_file, gnomad_exome, gnomad_genome):
+def filter_irav(input_file, mut_file, output_file, gnomad_exome, gnomad_genome):
+
+    mutkey2info = {}
+    with open(mut_file, 'r') as hin:
+        for line in hin:
+            F = line.rstrip('\n').split('\t')
+            mutkey2info['\t'.join(F[:5])] = '\t'.join(F[5:])
+
 
     if gnomad_exome is not None: gnomad_exome_db = pysam.Tabixfile(gnomad_exome)
     if gnomad_genome is not None: gnomad_genome_db = pysam.Tabixfile(gnomad_genome)
@@ -23,6 +30,8 @@ def filter_irav(input_file, output_file, gnomad_exome, gnomad_genome):
             header2ind[cname] = i
 
         header_line = '\t'.join(header)
+        header_line = header_line + '\t' + '\t'.join(["Variant_Ratio", "Depth", "Variant_Num", "Strand_Ratio", "Variant_Num_Detail"])
+
         if gnomad_exome is not None: header_line = header_line + '\t' + "gnomAD_exome"
         if gnomad_genome is not None: header_line = header_line + '\t' + "gnomAD_genome"
 
@@ -47,6 +56,7 @@ def filter_irav(input_file, output_file, gnomad_exome, gnomad_genome):
             alt_mut = F[header2ind["Alt_Mut"]] 
 
             irav_line = '\t'.join(F)
+            irav_line = '\t'.join(F) + '\t' + mutkey2info['\t'.join(F[1:6])]
 
             if gnomad_exome is not None:
 

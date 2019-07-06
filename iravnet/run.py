@@ -37,11 +37,9 @@ def iravnet_main(args):
 
     seqlen = list(seqlen2count.keys())[0]
 
-    # hout = open(args.output_file + ".tmp1", 'w') 
     mpileup_command = ["samtools", "mpileup", args.input_bam, "-f", args.reference, "-l", target_file, "-q", str(args.min_mapq), "-O", "-o", args.output_file + ".tmp1"]
     print(' '.join(mpileup_command))
     subprocess.check_call(mpileup_command)# , stdout = hout, stderr = subprocess.STDOUT)
-    # hout.close()
 
     proc_mpileup(args.output_file + ".tmp1", args.output_file + ".tmp2", seqlen, args.min_variant_num, args.min_variant_ratio) 
 
@@ -49,7 +47,7 @@ def iravnet_main(args):
     if genome_id == "hg38": ir_ac_command = ir_ac_command + ["--genome_id", "hg38"]
     subprocess.check_call(ir_ac_command)
     
-    filter_irav(args.output_file + ".tmp3", args.output_file, args.gnomad_exome, args.gnomad_genome)
+    filter_irav(args.output_file + ".tmp3", args.output_file + ".tmp2", args.output_file, args.gnomad_exome, args.gnomad_genome)
 
     if not args.debug:
         subprocess.check_call(["rm", "-rf", args.output_file + ".tmp1"])
