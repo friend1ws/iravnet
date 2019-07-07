@@ -20,11 +20,13 @@ def create_parser():
     parser.add_argument("reference", metavar = "reference.fa", default = None, type = str,
                         help = "the path to the reference genome sequence")
 
+    """
     parser.add_argument("--gnomad_exome", type = str, default = None,
                         help = "the path to gnomad exome tabixed VCF file")
 
     parser.add_argument("--gnomad_genome", type = str, default = None,
                         help = "the path to gnomad whole genome tabixed VCF file")
+    """
 
     parser.add_argument("--min_variant_ratio", type = float, default = 0.05,
                         help = "the minimum value of the variant allele frequency for the variants")

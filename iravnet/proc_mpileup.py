@@ -8,6 +8,9 @@ def proc_mpileup(input_file, output_file, seqlen, min_variant_num = 3, min_varia
     # input_file = sys.argv[1]
     hout = open(output_file, 'w') 
 
+    print('\t'.join(["Chr", "Start", "End", "Ref", "Alt", "Original_Ref", "Variant_Ratio", "Depth", 
+                     "Variant_Num", "Strand_Ratio", "Variant_Num_Info"]), file = hout)
+
     with open(input_file, 'r') as hin:
         for line in hin:
             F = line.rstrip('\n').split('\t')
@@ -103,7 +106,7 @@ def proc_mpileup(input_file, output_file, seqlen, min_variant_num = 3, min_varia
             var_info = str(depth_p) + ',' + str(var2num_plus[bvar]) + ';' + str(depth_n) + ',' + str(var2num[bvar] - var2num_plus[bvar])
             strand_ratio = float(var2num_plus[bvar]) / var2num[bvar]
 
-            start, end, ref, alt = F[1], F[1], F[2], bvar
+            start, end, ref, alt, original_ref = F[1], F[1], F[2], bvar, F[2]
             if bvar.startswith('-'): 
                 ref = bvar[1:]
                 alt = '-'
@@ -112,7 +115,7 @@ def proc_mpileup(input_file, output_file, seqlen, min_variant_num = 3, min_varia
                 ref = '-'
                 alt = bvar[1:]
 
-            print('\t'.join([F[0], start, end, ref, alt, str(round(bmis_rate, 4)), str(depth_p + depth_n), str(var2num[bvar]),
+            print('\t'.join([F[0], start, end, ref, alt, original_ref, str(round(bmis_rate, 4)), str(depth_p + depth_n), str(var2num[bvar]),
                              str(round(strand_ratio, 4)), var_info]), file = hout)
 
 

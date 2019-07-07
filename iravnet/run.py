@@ -46,8 +46,8 @@ def iravnet_main(args):
     ir_ac_command = ["intron_retention_utils", "allele_count", args.input_bam, args.output_file + ".tmp2", args.output_file + ".tmp3", "--reference", args.reference]
     if genome_id == "hg38": ir_ac_command = ir_ac_command + ["--genome_id", "hg38"]
     subprocess.check_call(ir_ac_command)
-    
-    filter_irav(args.output_file + ".tmp3", args.output_file + ".tmp2", args.output_file, args.gnomad_exome, args.gnomad_genome)
+
+    filter_irav(args.output_file + ".tmp3", args.output_file + ".tmp2", args.output_file)
 
     if not args.debug:
         subprocess.check_call(["rm", "-rf", args.output_file + ".tmp1"])
