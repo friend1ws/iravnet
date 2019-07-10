@@ -11,7 +11,7 @@ vcf_header = """\
 ##INFO=<ID=DP,Number=1,Type=Integer,Description="Total read number">
 ##INFO=<ID=AF,Number=1,Type=Float,Description="Allele Frequency">
 ##INFO=<ID=AD,Number=1,Type=Integer,Description="Variant read number">
-##INFO=<ID=SB,Number=1,Type=Integer,Description="Strand bias (variant read number on the forward strand devided by total variant read number)">
+##INFO=<ID=SB,Number=1,Type=Integer,Description="Strand bias (variant read number on the forward strand divided by total variant read number)">
 ##INFO=<ID=DPF,Number=1,Type=Integer,Description="Total read number on the forward strand">
 ##INFO=<ID=DPR,Number=1,Type=Integer,Description="Total read number on the reverse strand">
 ##INFO=<ID=ADF,Number=1,Type=Integer,Description="Variant read number on the forward strand">
@@ -23,7 +23,6 @@ vcf_header = """\
 ##INFO=<ID=SJ_WT,Number=1,Type=Integer,Description="The number of normally spliced reads with the reference allele">
 ##INFO=<ID=SJ_MT,Number=1,Type=Integer,Description="The number of normally spliced reads with the mutated allele">
 ##INFO=<ID=IR_WT,Number=1,Type=Integer,Description="The number of intron retained reads with the reference allele">
-##INFO=<ID=IR_MT,Number=1,Type=Integer,Description="The number of intron retained reads with the mutated allele">
 ##INFO=<ID=IR_MT,Number=1,Type=Integer,Description="The number of intron retained reads with the mutated allele">\
 """
 

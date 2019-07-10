@@ -28,14 +28,6 @@ def create_parser():
     get.add_argument("reference", metavar = "reference.fa", default = None, type = str,
                      help = "the path to the reference genome sequence")
 
-    """
-    parser.add_argument("--gnomad_exome", type = str, default = None,
-                        help = "the path to gnomad exome tabixed VCF file")
-
-    parser.add_argument("--gnomad_genome", type = str, default = None,
-                        help = "the path to gnomad whole genome tabixed VCF file")
-    """
-
     get.add_argument("--min_variant_ratio", type = float, default = 0.05,
                      help = "the minimum value of the variant allele frequency for the variants")
 
@@ -48,6 +40,7 @@ def create_parser():
     get.add_argument("--debug", default = False, action = 'store_true', help = "keep intermediate files")
 
     get.set_defaults(func = get_main)
+    ##########
 
     ##########
     # annotation
@@ -55,7 +48,7 @@ def create_parser():
                                      help = "Annotate variants obtained by get command")
 
     annotate.add_argument("input_vcf", metavar = "input.vcf", default = None, type = str,
-                          help = "the path to the intron retention assocaiated variants list file obtained by get comman")
+                          help = "the path to the intron retention assocaiated variants list file obtained by get command")
 
     annotate.add_argument("output_vcf", metavar = "output.vcf", default = None, type = str,
                           help = "the path to the output")
@@ -69,6 +62,29 @@ def create_parser():
     annotate.set_defaults(func = annotate_main)
     ##########
 
+    ##########
+    # annotation
+    validate = subparsers.add_parser("validate",
+                                     help = "Validate variants obtained by get command using a genomic BAM file")
+
+    validate.add_argument("input_vcf", metavar = "input.vcf", default = None, type = str,
+                          help = "the path to the intron retention assocaiated variants list file obtained by get comman")
+
+    validate.add_argument("input_bam", metavar = "input.bam", default = None, type = str,
+                          help = "the path to input bam file")
+
+    validate.add_argument("output_file", metavar = "output.txt", default = None, type = str,
+                          help = "the path to the output")
+
+    validate.add_argument("reference", metavar = "reference.fa", default = None, type = str,
+                          help = "the path to the reference genome sequence")
+
+    validate.add_argument("--min_mapq", type = int, default = 20,
+                          help = "the threshould of mapping quality to count on the mpileup process for detecting candidate variants")
+ 
+    validate.set_defaults(func = validate_main)
+    ##########
+    
     return parser
  
 
