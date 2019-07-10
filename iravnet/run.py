@@ -6,8 +6,9 @@ import sys, subprocess, os, pkg_resources
 from .check_bam import *
 from .proc_mpileup import *
 from .filter_irav import *
+from .annotate import *
 
-def iravnet_main(args):
+def get_main(args):
 
     genome_id, is_grc = check_refgenome(args.input_bam)
 
@@ -53,5 +54,10 @@ def iravnet_main(args):
         subprocess.check_call(["rm", "-rf", args.output_file + ".tmp1"])
         subprocess.check_call(["rm", "-rf", args.output_file + ".tmp2"])
         subprocess.check_call(["rm", "-rf", args.output_file + ".tmp3"])
+
+
+def annotate_main(args):
+
+    annotate_vcf(args.input_vcf, args.output_vcf, args.gnomad_exome, args.gnomad_genome)
 
  

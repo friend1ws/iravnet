@@ -42,7 +42,7 @@ setup(
     packages = find_packages(exclude = ['tests', 'prep_data']),
     package_data={'iravnet': ['data/*']},
 
-    install_requires = ["annot_utils>=0.3.0", "pysam>=0.9.0", "intron_retention_utils>=0.6.0"],
+    # install_requires = ["annot_utils>=0.3.0", "pysam>=0.9.0", "intron_retention_utils>=0.6.0"],
     entry_points = {'console_scripts': ['iravnet = iravnet:main']}
 
 )

@@ -89,11 +89,11 @@ def filter_irav(input_file, mut_file, output_file):
             depth_r, variant_num_r = variant_num_info_r.split(',')
 
             
-            if ref_mut == "-":
+            if alt_mut == "-":
                 pos = str(int(start_mut) - 1)
                 ref = original_ref + ref_mut
                 alt = original_ref
-            elif alt_mut == "-":
+            elif ref_mut == "-":
                 pos = start_mut
                 ref = original_ref
                 alt = original_ref + alt_mut
@@ -120,44 +120,6 @@ def filter_irav(input_file, mut_file, output_file):
             irav_line = irav_line + ';' + "IR_MT=" + str(ir_p)
 
 
-            """
-            irav_line = '\t'.join(F)
-            irav_line = '\t'.join(F) + '\t' + mutkey2info['\t'.join(F[1:6])]
-
-            if gnomad_exome is not None:
-
-                # import pdb; pdb.set_trace()
-                AF_exome = 0
-                for record_line in gnomad_exome_db.fetch(chr_mut, start_mut - 3, end_mut + 3):
-                    record = record_line.split('\t')
-                    if record[0] != chr_mut: continue
-                    if record[1] != str(start_mut): continue
-                    if record[3] != ref_mut: continue
-                    if record[4] != alt_mut: continue
-
-                    infos = record[7].split(';')
-                    for info in infos:
-                        if info.startswith("AF="):
-                            AF_exome = float(info.replace("AF=", ''))
-                irav_line = irav_line + '\t' + str(round(AF_exome, 4))                        
-                                   
-            if gnomad_genome is not None:
-
-                AF_genome = 0
-                for record_line in gnomad_genome_db.fetch(chr_mut, start_mut - 3, end_mut + 3):
-                    record = record_line.split('\t')
-                    if record[0] != chr_mut: continue
-                    if record[1] != str(start_mut): continue
-                    if record[3] != ref_mut: continue
-                    if record[4] != alt_mut: continue
-                
-                    infos = record[7].split(';')
-                    for info in infos:
-                        if info.startswith("AF="):
-                            AF_genome = float(info.replace("AF=", ''))
-                irav_line = irav_line + '\t' + str(round(AF_genome, 4))
-                """
-     
             print(irav_line, file = hout)
 
 
