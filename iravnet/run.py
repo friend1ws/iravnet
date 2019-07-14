@@ -102,7 +102,7 @@ def validate_main(args):
             subprocess.check_call(mpileup_command, stderr = subprocess.DEVNULL)
 
             tdepth, tvariant_num = validate_pileup(args.output_file + ".tmp1.pileup", tchr, tpos, tref, tvar)
-            tvariant_ratio = float(tvariant_num) / float(tdepth)
+            tvariant_ratio = float(tvariant_num) / float(tdepth) if tdepth != 0 else 0
         
             print(line + ";VAL_DP=" + str(tdepth) + ";VAL_AF=" + str(round(tvariant_ratio, 4)) + ";VAL_AD=" + str(tvariant_num), file = hout)
 

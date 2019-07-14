@@ -7,8 +7,13 @@ def validate_pileup(input_file, tchr, tpos, tref, talt):
     with open(input_file, 'r') as hin:
         F = hin.readline().rstrip('\n').split('\t')
 
-        if F[0] != tchr or F[1] != tpos or F[2][0] != tref:
+        if F[0] == '':
+            return(0, 0)
+
+        if F[0] != tchr or F[1] != tpos or F[2] != tref[0]:
             print("Error!!", file = sys.stderr)
+            print(tchr, tpos, tref, talt)
+            print(F, file = sys.stderr)
             sys.exit(1)
 
         var2num = {}
@@ -70,8 +75,8 @@ def validate_pileup(input_file, tchr, tpos, tref, talt):
         else:
             bvar = talt
 
-
-        return(depth_p + depth_n, var2num[bvar])
+        vnum = var2num[bvar] if bvar in var2num else 0
+        return(depth_p + depth_n, vnum)
 
 
 
