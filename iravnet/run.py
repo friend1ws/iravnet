@@ -40,8 +40,8 @@ def get_main(args):
     seqlen = list(seqlen2count.keys())[0]
 
     mpileup_command = ["samtools", "mpileup", args.input_bam, "-f", args.reference, "-l", target_file, "-q", str(args.min_mapq), "-O", "-o", args.output_file + ".tmp1"]
-    print(' '.join(mpileup_command))
-    subprocess.check_call(mpileup_command)# , stdout = hout, stderr = subprocess.STDOUT)
+    # print(' '.join(mpileup_command))
+    subprocess.check_call(mpileup_command, stderr = subprocess.DEVNULL)# , stdout = hout, stderr = subprocess.STDOUT)
 
     proc_mpileup(args.output_file + ".tmp1", args.output_file + ".tmp2", seqlen, args.min_variant_num, args.min_variant_ratio) 
 
