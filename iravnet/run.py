@@ -72,6 +72,8 @@ def validate_main(args):
     info_start_flag = False
     info_end_flag = False
 
+    prefix = args.prefix
+
     with open(args.input_vcf, 'r') as hin:
         for line in hin:
 
@@ -80,9 +82,9 @@ def validate_main(args):
             if line.startswith("##INFO") and not info_start_flag: info_start_flag = True
 
             if not line.startswith("##INFO") and info_start_flag and not info_end_flag:
-                print('##INFO=<ID=VAL_DP,Number=1,Type=Integer,Description="Total read number">', file = hout)
-                print('##INFO=<ID=VAL_AF,Number=1,Type=Float,Description="Allele Frequency">', file = hout)
-                print('##INFO=<ID=VAL_AD,Number=1,Type=Integer,Description="Variant read number">', file = hout)
+                print('##INFO=<ID=' + prefix + '_DP,Number=1,Type=Integer,Description="Total read number">', file = hout)
+                print('##INFO=<ID=' + prefix + '_AF,Number=1,Type=Float,Description="Allele Frequency">', file = hout)
+                print('##INFO=<ID=' + prefix + '_AD,Number=1,Type=Integer,Description="Variant read number">', file = hout)
                 info_end_flag = True
 
             if line.startswith('#'):
@@ -104,7 +106,8 @@ def validate_main(args):
             tdepth, tvariant_num = validate_pileup(args.output_file + ".tmp1.pileup", tchr, tpos, tref, tvar)
             tvariant_ratio = float(tvariant_num) / float(tdepth) if tdepth != 0 else 0
         
-            print(line + ";VAL_DP=" + str(tdepth) + ";VAL_AF=" + str(round(tvariant_ratio, 4)) + ";VAL_AD=" + str(tvariant_num), file = hout)
+            print(line + ";" + prefix + "_DP=" + str(tdepth) + ";" + prefix + "_AF=" + str(round(tvariant_ratio, 4)) + \
+                  ";" + prefix + "_AD=" + str(tvariant_num), file = hout)
 
     hout.close()
 

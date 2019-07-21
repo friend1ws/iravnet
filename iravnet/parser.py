@@ -63,7 +63,7 @@ def create_parser():
     ##########
 
     ##########
-    # annotation
+    # validate 
     validate = subparsers.add_parser("validate",
                                      help = "Validate variants obtained by get command using a genomic BAM file")
 
@@ -82,6 +82,9 @@ def create_parser():
     validate.add_argument("--min_mapq", type = int, default = 20,
                           help = "the threshould of mapping quality to count on the mpileup process for detecting candidate variants")
  
+    validate.add_argument("--prefix", type = str, default = "VAL",
+                          help = "the prefix string added to the INFO keys in the output VCF file")
+
     validate.set_defaults(func = validate_main)
     ##########
     
