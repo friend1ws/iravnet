@@ -46,6 +46,7 @@ def get_main(args):
     proc_mpileup(args.output_file + ".tmp1", args.output_file + ".tmp2", seqlen, args.min_variant_num, args.min_variant_ratio) 
 
     ir_ac_command = ["intron_retention_utils", "allele_count", args.input_bam, args.output_file + ".tmp2", args.output_file + ".tmp3", "--reference", args.reference]
+    ir_ac_command = ir_ac_command + ["--donor_size", "3,6", "--acceptor_size", "6,1"]
     if genome_id == "hg38": ir_ac_command = ir_ac_command + ["--genome_id", "hg38"]
     subprocess.check_call(ir_ac_command)
 

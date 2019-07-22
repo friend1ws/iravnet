@@ -53,6 +53,8 @@ RUN wget https://github.com/pysam-developers/pysam/archive/v0.15.2.tar.gz && \
 
 ENV LD_LIBRARY_PATH /usr/local/lib:$LD_LIBRARY_PATH
 
+RUN pwd
+
 RUN git clone https://github.com/friend1ws/iravnet.git && \
     cd iravnet && pip3 install .
 
