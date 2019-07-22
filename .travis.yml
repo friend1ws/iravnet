@@ -1,0 +1,36 @@
+language: python
+python:
+  - "2.7"
+  - "3.5"
+  - "3.6"
+before_script:
+
+  - wget wget https://github.com/samtools/samtools/releases/download/1.9/samtools-1.9.tar.bz2
+  - tar jxvf samtools-1.9.tar.bz2
+  - cd samtools-1.9/htslib-1.9 && ./configure && make && make install 
+  - cd ../ && ./configure --without-curses && make && make install && cd ../
+
+  - wget https://github.com/arq5x/bedtools2/releases/download/v2.27.0/bedtools-2.27.0.tar.gz
+  - tar zxvf bedtools-2.27.0.tar.gz
+  - cd bedtools2 && make && export PATH=$PATH:$PWD/bin && cd ..
+
+  - wget https://github.com/mengyao/Complete-Striped-Smith-Waterman-Library/archive/v1.1.tar.gz
+  - tar zxvf v1.1.tar.gz 
+  - cd Complete-Striped-Smith-Waterman-Library-1.1/src
+  - gcc -Wall -O3 -pipe -fPIC -shared -rdynamic -o libssw.so ssw.c ssw.h
+  - export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PWD
+  - cd ../..
+
+  - pip install requests
+  - pip install cython==0.29.11
+  - pip install annot_utils==0.3.0
+  - pip install intron_retention_utils==0.6.0
+
+  - export HTSLIB_LIBRARY_DIR="/usr/local/lib" && export HTSLIB_INCLUDE_DIR="/usr/local/include"
+  - wget https://github.com/pysam-developers/pysam/archive/v0.15.2.tar.gz
+  - tar zxvf v0.15.2.tar.gz
+  - cd pysam-0.15.2 && python setup.py build install && cd ..
+
+script:
+  - pip install .
+#   - python setup.py test
