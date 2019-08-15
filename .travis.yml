@@ -26,7 +26,9 @@ before_script:
   - pip install annot_utils==0.3.0
   - pip install intron_retention_utils==0.6.0
 
-  - export HTSLIB_LIBRARY_DIR="/usr/local/lib" && export HTSLIB_INCLUDE_DIR="/usr/local/include"
+  - export HTSLIB_LIBRARY_DIR="/usr/local/lib"
+  - export HTSLIB_INCLUDE_DIR="/usr/local/include"
+  - export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:"/usr/local/lib"
   - wget https://github.com/pysam-developers/pysam/archive/v0.15.2.tar.gz
   - tar zxvf v0.15.2.tar.gz
   - cd pysam-0.15.2 && python setup.py build install && cd ..
