@@ -72,7 +72,8 @@ def proc_mpileup(input_file, output_file, seqlen, min_variant_num = 3, min_varia
 
                         match = re.search(r'^[\+\-](\d+)', bases)
                         indel_size = int(match.group(1))
-                        var_original = bases[0] + bases[2:(2 + indel_size)]
+                        # var_original = bases[0] + bases[2:(2 + indel_size)]
+                        var_original = bases[0] + bases[(len(str(indel_size)) + 1):(len(str(indel_size)) + indel_size + 1)]
                         var = var_original.upper()
                         if var not in var2num:
                             var2num[var], var2pos[var], var2num_plus[var] = 0, [], 0
@@ -80,8 +81,8 @@ def proc_mpileup(input_file, output_file, seqlen, min_variant_num = 3, min_varia
                         var2pos[var].append(positions[base_ind])
                         if var == var_original: var2num_plus[var] = var2num_plus[var] + 1
 
-                        bases = bases[(2 + indel_size):]
-
+                        # bases = bases[(2 + indel_size):]
+                        bases = bases[(len(str(indel_size)) + indel_size + 1):]
                     base_ind = base_ind + 1
 
             if len(positions) != base_ind:
