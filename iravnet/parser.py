@@ -28,6 +28,9 @@ def create_parser():
     get.add_argument("reference", metavar = "reference.fa", default = None, type = str,
                      help = "the path to the reference genome sequence")
 
+    get.add_argument("--target_file", type = str, default = None,
+                     help = "the custom target file for exon-intron boundary")
+
     get.add_argument("--min_variant_ratio", type = float, default = 0.05,
                      help = "the minimum value of the variant allele frequency for the variants")
 

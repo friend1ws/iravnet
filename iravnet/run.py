@@ -13,7 +13,9 @@ def get_main(args):
 
     genome_id, is_grc = check_refgenome(args.input_bam)
 
-    if genome_id == "hg19":
+    if args.target_file is not None:
+        target_file = args.target_file
+    elif genome_id == "hg19":
         if is_grc:
             target_file = pkg_resources.resource_filename("iravnet", "data/boundary_proc.hg19.grc.bed")
         else:

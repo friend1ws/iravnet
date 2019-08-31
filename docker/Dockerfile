@@ -45,7 +45,7 @@ ENV HTSLIB_INCLUDE_DIR /usr/local/include
 
 RUN pip3 install cython==0.29.11
 RUN pip3 install annot_utils==0.3.0
-RUN pip3 install intron_retention_utils==0.6.0
+RUN pip3 install intron_retention_utils==0.6.1
 
 RUN wget https://github.com/pysam-developers/pysam/archive/v0.15.2.tar.gz && \
     tar -zxvf v0.15.2.tar.gz && \
