@@ -113,6 +113,7 @@ def validate_main(args):
                   ";" + prefix + "_AD=" + str(tvariant_num), file = hout)
 
     hout.close()
-
+    
+    subprocess.check_call(["rm", "-rf", args.output_file + ".tmp1.pileup"])
             
  
