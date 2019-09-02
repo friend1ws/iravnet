@@ -3,7 +3,7 @@
 import re, sys, math
 
 
-def proc_mpileup(input_file, output_file, seqlen, min_variant_num = 3, min_variant_ratio = 0.05):
+def proc_mpileup(input_file, output_file, seqlen, min_variant_num = 3, min_variant_ratio = 0.05, min_edge_margin = 10, min_pos_range = 5):
 
     # input_file = sys.argv[1]
     hout = open(output_file, 'w') 
@@ -102,7 +102,12 @@ def proc_mpileup(input_file, output_file, seqlen, min_variant_num = 3, min_varia
                     bvar = var
 
             if bmis_rate < min_variant_ratio: continue
-            if len([x for x in var2pos[bvar] if int(x) >= 10 and int(x) <= seqlen - 10]) == 0: continue
+            if len([x for x in var2pos[bvar] if int(x) >= min_edge_margin and int(x) <= seqlen - min_edge_margin]) == 0: continue
+            
+            unique_positions = list(set([x for x in var2pos[bvar]]))
+            if len(unique_positions) < min_variant_num: continue
+            if max(unique_positions) - min(unique_positions) < min_pos_range: continue
+            
 
             var_info = str(depth_p) + ',' + str(var2num_plus[bvar]) + ';' + str(depth_n) + ',' + str(var2num[bvar] - var2num_plus[bvar])
             strand_ratio = float(var2num_plus[bvar]) / var2num[bvar]
