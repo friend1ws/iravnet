@@ -23,7 +23,7 @@ before_script:
   - pip install requests
   - pip install cython==0.29.11
   - pip install annot_utils==0.3.0
-  - pip install intron_retention_utils==0.6.0
+  - pip install intron_retention_utils==0.6.2
 
   - export HTSLIB_LIBRARY_DIR="/usr/local/lib"
   - export HTSLIB_INCLUDE_DIR="/usr/local/include"
