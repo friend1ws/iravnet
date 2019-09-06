@@ -23,7 +23,8 @@ vcf_header = """\
 ##INFO=<ID=SJ_WT,Number=1,Type=Integer,Description="The number of normally spliced reads with the reference allele">
 ##INFO=<ID=SJ_MT,Number=1,Type=Integer,Description="The number of normally spliced reads with the mutated allele">
 ##INFO=<ID=IR_WT,Number=1,Type=Integer,Description="The number of intron retained reads with the reference allele">
-##INFO=<ID=IR_MT,Number=1,Type=Integer,Description="The number of intron retained reads with the mutated allele">\
+##INFO=<ID=IR_MT,Number=1,Type=Integer,Description="The number of intron retained reads with the mutated allele">
+##INFO=<ID=IR_MT_MOH,Number=1,Type=Integer,Description="The maximum overhang size of intron retained reads with the mutated allele">\
 """
 
 # gnomad_exome_db = pysam.Tabixfile("gnomad.exomes.r2.1.1.sites.vcf.bgz")
@@ -68,6 +69,7 @@ def filter_irav(input_file, mut_file, output_file):
             sj_p = int(F[header2ind["Splice_Junction_Positive"]])
             ir_n = int(F[header2ind["Intron_Retention_Negative"]])
             ir_p = int(F[header2ind["Intron_Retention_Positive"]])
+            ir_p_moh = int(F[header2ind["IR_Posivite_Max_Overhang"]])
 
             if ir_p < 3: continue
             if float(ir_p) / (ir_p + ir_n) < 0.9: continue
@@ -117,7 +119,7 @@ def filter_irav(input_file, mut_file, output_file):
             irav_line = irav_line + ';' + "SJ_MT=" + str(sj_p)
             irav_line = irav_line + ';' + "IR_WT=" + str(ir_n)
             irav_line = irav_line + ';' + "IR_MT=" + str(ir_p)
-
+            irav_line = irav_line + ';' + "IR_MT_MOH=" + str(ir_p_moh)
 
             print(irav_line, file = hout)
 
