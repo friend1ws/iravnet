@@ -47,7 +47,7 @@ class TestMain(unittest.TestCase):
         iravnet.run.get_main(args)
 
         with open(tmp_dir + "/PC-7.19.iravnet.result.txt", 'r') as hin: record_num = len(hin.readlines())
-        self.assertTrue(record_num == 38)
+        self.assertTrue(record_num == 39)
         shutil.rmtree(tmp_dir)
 
 if __name__ == "__main__":
