@@ -62,6 +62,9 @@ def create_parser():
     annotate.add_argument("--gnomad_genome", type = str, default = None,
                           help = "the path to gnomad whole genome tabixed VCF file")
 
+    annotate.add_argument("--clinvar", type = str, default = None,
+                          help = "the path to ClinVar tabixed VCF file")
+
     annotate.set_defaults(func = annotate_main)
     ##########
 

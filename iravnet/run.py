@@ -63,7 +63,7 @@ def get_main(args):
 
 def annotate_main(args):
 
-    annotate_vcf(args.input_vcf, args.output_vcf, args.gnomad_exome, args.gnomad_genome)
+    annotate_vcf(args.input_vcf, args.output_vcf, args.gnomad_exome, args.gnomad_genome, args.clinvar)
 
 
 
