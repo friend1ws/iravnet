@@ -67,13 +67,15 @@ def check_refgenome(input_bam):
     hg19_count, hg38_count = 0, 0
 
     for i in range(f.nreferences):
+
         rname = f.getrname(i)
         if rname in target_rnames:
             grc_count = grc_count + 1
             seq_length = f.get_reference_length(rname)
         elif rname in ["chr" + x for x in target_rnames]:
             nongrc_count = nongrc_count + 1
-            seq_length = f.get_reference_length(rname.replace("chr", ''))
+            seq_length = f.get_reference_length(rname)
+            rname = rname.replace("chr", '')
         else:
             continue
 
@@ -85,7 +87,7 @@ def check_refgenome(input_bam):
             print("The length of %s is not included in either hg19 or hg38 in the BAM file." % rname, file = sys.stderr)
 
 
-    if grc_count == 0 and non_grc_count == 0:
+    if grc_count == 0 and nongrc_count == 0:
         print("No human chromosome is found in the BAM file.", file = sys.stderr)
         sys.exit(1)
 
