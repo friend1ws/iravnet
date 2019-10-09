@@ -48,7 +48,7 @@ def annotate_vcf(input_vcf, output_vcf, gnomad_exome, gnomad_genome, clinvar):
             if gnomad_exome is not None: 
 
                 GNOMAD_EXOME = 0
-                if F[0] in target_rnames:
+                if F[0] in target_rnames + ["chr" + x for x in target_rnames]:
                     for record_line in gnomad_exome_db.fetch(F[0], int(F[1]) - 1, int(F[1]) + 1):
                         record = record_line.split('\t')
                         if record[0] != F[0]: continue
@@ -64,7 +64,7 @@ def annotate_vcf(input_vcf, output_vcf, gnomad_exome, gnomad_genome, clinvar):
             if gnomad_genome is not None:
 
                 GNOMAD_GENOME = 0
-                if F[0] in target_rnames:
+                if F[0] in target_rnames + ["chr" + x for x in target_rnames]:
                     for record_line in gnomad_genome_db.fetch(F[0], int(F[1]) - 1, int(F[1]) + 1):
                         record = record_line.split('\t')
                         if record[0] != F[0]: continue
@@ -81,8 +81,8 @@ def annotate_vcf(input_vcf, output_vcf, gnomad_exome, gnomad_genome, clinvar):
             
                 CLNVs = []
                 CLNV_SIGs = []
-                if F[0] in target_rnames:
-                    for record_line in clinvar_db.fetch(F[0], int(F[1]) - 1, int(F[1]) + 1):   
+                if F[0] in target_rnames + ["chr" + x for x in target_rnames]:
+                    for record_line in clinvar_db.fetch(F[0].replace("chr", ''), int(F[1]) - 1, int(F[1]) + 1):   
                         record = record_line.split('\t')
                         if record[0] != F[0]: continue
                         if record[1] != F[1]: continue
@@ -106,8 +106,8 @@ def annotate_vcf(input_vcf, output_vcf, gnomad_exome, gnomad_genome, clinvar):
                         mchr, mregion = info.replace("MOTIF_POS=", '').split(':')
                         mstart, mend = mregion.split('-')
 
-                if mchr in target_rnames:
-                    for record_line in clinvar_db.fetch(mchr, int(mstart) - 1, int(mend) + 1):
+                if mchr in target_rnames + ["chr" + x for x in target_rnames]:
+                    for record_line in clinvar_db.fetch(mchr.replace("chr", ''), int(mstart) - 1, int(mend) + 1):
                         record = record_line.split('\t')
                         if int(record[1]) < int(mstart): continue
                         if int(record[1]) > int(mend): continue
