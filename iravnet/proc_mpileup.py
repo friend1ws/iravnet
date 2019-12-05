@@ -102,7 +102,7 @@ def proc_mpileup(input_file, output_file, seqlen, min_variant_num = 3, min_varia
                     bvar = var
 
             if bmis_rate < min_variant_ratio: continue
-            if len([x for x in var2pos[bvar] if int(x) >= min_edge_margin and int(x) <= seqlen - min_edge_margin]) == 0: continue
+            # if len([x for x in var2pos[bvar] if int(x) >= min_edge_margin and int(x) <= seqlen - min_edge_margin]) == 0: continue
             
             unique_positions = list(set([int(x) for x in var2pos[bvar]]))
             if len(unique_positions) < min_variant_num: continue

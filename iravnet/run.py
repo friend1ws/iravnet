@@ -34,10 +34,12 @@ def get_main(args):
     if len(seqlen2count) == 0:
         print("No read in the input BAM file.", file = sys.stderr)
         sys.exit(1)
-    
+
+    """    
     if len(seqlen2count) > 1:
         print("Various lengths of reads in the input BAM file.", file = sys.stderr)
         sys.exit(1)
+    """
 
     seqlen = list(seqlen2count.keys())[0]
 

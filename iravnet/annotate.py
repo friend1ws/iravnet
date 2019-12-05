@@ -84,7 +84,7 @@ def annotate_vcf(input_vcf, output_vcf, gnomad_exome, gnomad_genome, clinvar):
                 if F[0] in target_rnames + ["chr" + x for x in target_rnames]:
                     for record_line in clinvar_db.fetch(F[0].replace("chr", ''), int(F[1]) - 1, int(F[1]) + 1):   
                         record = record_line.split('\t')
-                        if record[0] != F[0]: continue
+                        # if record[0] != F[0]: continue
                         if record[1] != F[1]: continue
                         if record[3] != F[3]: continue
                         if record[4] != F[4]: continue
