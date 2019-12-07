@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 
 from __future__ import print_function
-import sys, subprocess, os, pkg_resources 
+import sys, subprocess, os, gzip, pkg_resources 
 
 from .check_bam import *
 from .proc_mpileup import *
@@ -118,4 +118,82 @@ def validate_main(args):
     
     subprocess.check_call(["rm", "-rf", args.output_file + ".tmp1.pileup"])
             
- 
+
+def filt_bam_main(args):
+
+    import annot_utils
+
+    gene_list = []
+    with open(args.input_vcf, 'r') as hin:
+        for line in hin:
+            if line.startswith('#'): continue
+            F = line.rstrip('\n').split('\t')
+            INFO_list = F[7].split(';')
+            for elm in INFO_list:
+                if elm.startswith("GENE="):
+                    gene = elm.replace("GENE=", '')
+                    gene_list.append(gene)
+
+    genome_id, is_grc = check_refgenome(args.input_bam)
+    annot_utils.gene.make_gene_info(args.output_bam + ".tmp.refGene.bed.gz", "refseq", genome_id, is_grc, False)
+
+    gene2chr = {}
+    gene2start = {}
+    gene2end = {}
+    with gzip.open(args.output_bam + ".tmp.refGene.bed.gz", 'rt') as hin:
+        for line in hin:
+            F = line.rstrip('\n').split('\t')
+            if F[3] in gene_list:
+                gene2chr[F[3]] = F[0]
+                if F[3] not in gene2start or int(F[1]) < int(gene2start[F[3]]):
+                    gene2start[F[3]] = F[1]
+                if F[3] not in gene2end or int(F[2]) > int(gene2end[F[3]]):
+                    gene2end[F[3]] = F[2]
+
+    region_list = []
+    for gene in gene2chr:
+        region = gene2chr[gene] + ':' + gene2start[gene] + '-' + gene2end[gene]
+        region_list.append(region)
+
+
+    # initialize the file
+    hout = open(args.output_bam + ".tmp.unsorted.sam", 'w')
+    hout.close()
+
+    hout = open(args.output_bam + ".tmp.unsorted.sam", 'a')
+    for region in sorted(region_list):
+        subprocess.check_call(["samtools", "view", args.input_bam, region], stdout = hout, stderr = subprocess.DEVNULL)
+    hout.close()
+
+    hout = open(args.output_bam + ".tmp.unsorted.rmdup.sam", 'w')
+    subprocess.check_call(["sort", "-u", "-k1,1", args.output_bam + ".tmp.unsorted.sam"], stdout = hout)
+
+
+    hout = open(args.output_bam + ".tmp.unsorted2.sam", 'w')
+    subprocess.check_call(["samtools", "view", "-H", args.input_bam], stdout = hout, stderr = subprocess.DEVNULL)
+    hout.close()
+
+    hout = open(args.output_bam + ".tmp.unsorted2.sam", 'a')
+    subprocess.check_call(["cat", args.output_bam + ".tmp.unsorted.rmdup.sam"], stdout = hout)
+    hout.close()
+
+    hout = open(args.output_bam + ".tmp.unsorted2.bam", 'w')
+    subprocess.check_call(["samtools", "view", "-hbS", args.output_bam + ".tmp.unsorted2.sam"], stdout = hout)
+    hout.close()
+
+    hout = open(args.output_bam, 'w')
+    subprocess.check_call(["samtools", "sort", args.output_bam + ".tmp.unsorted2.bam"], stdout = hout)
+    hout.close()
+
+    subprocess.check_call(["samtools", "index", args.output_bam])
+
+    
+    subprocess.check_call(["rm", "-rf", args.output_bam + ".tmp.unsorted.sam"])
+    subprocess.check_call(["rm", "-rf", args.output_bam + ".tmp.unsorted.rmdup.sam"])
+    subprocess.check_call(["rm", "-rf", args.output_bam + ".tmp.unsorted2.sam"])
+    subprocess.check_call(["rm", "-rf", args.output_bam + ".tmp.unsorted2.bam"])
+    subprocess.check_call(["rm", "-rf", args.output_bam + ".tmp.refGene.bed.gz"])
+    subprocess.check_call(["rm", "-rf", args.output_bam + ".tmp.refGene.bed.gz.tbi"]) 
+    
+
+

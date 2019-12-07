@@ -93,7 +93,24 @@ def create_parser():
 
     validate.set_defaults(func = validate_main)
     ##########
+ 
+    ##########
+    # bam
+    filt_bam = subparsers.add_parser("filt_bam",
+                               help = "Generate BAM file including reads around obtained IRAV")
+    
+    filt_bam.add_argument("input_vcf", metavar = "input.vcf", default = None, type = str,
+                     help = "the path to the intron retention assocaiated variants list file obtained by get comman")
+
+    filt_bam.add_argument("input_bam", metavar = "input.bam", default = None, type = str,
+                     help = "the path to input bam file")
+
+    filt_bam.add_argument("output_bam", metavar = "output.bam", default = None, type = str,
+                     help = "the path to the output bam file")
+
+    filt_bam.set_defaults(func = filt_bam_main)
+    ##########
+
     
     return parser
  
-
