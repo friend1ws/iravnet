@@ -7,9 +7,9 @@ target_rnames = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", 
 
 def annotate_vcf(input_vcf, output_vcf, gnomad_exome, gnomad_genome, clinvar):
 
-    if gnomad_exome is not None: gnomad_exome_db = pysam.Tabixfile(gnomad_exome)
-    if gnomad_genome is not None: gnomad_genome_db = pysam.Tabixfile(gnomad_genome)
-    if clinvar is not None: clinvar_db = pysam.Tabixfile(clinvar)
+    if gnomad_exome is not None: gnomad_exome_db = pysam.Tabixfile(gnomad_exome, encoding="utf-8")
+    if gnomad_genome is not None: gnomad_genome_db = pysam.Tabixfile(gnomad_genome, encoding="utf-8")
+    if clinvar is not None: clinvar_db = pysam.Tabixfile(clinvar, encoding="utf-8")
 
     header_end_flag = False
     info_start_flag = False
