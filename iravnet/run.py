@@ -123,6 +123,7 @@ def filt_bam_main(args):
 
     import annot_utils
 
+    """
     gene_list = []
     with open(args.input_vcf, 'r') as hin:
         for line in hin:
@@ -133,6 +134,14 @@ def filt_bam_main(args):
                 if elm.startswith("GENE="):
                     gene = elm.replace("GENE=", '')
                     gene_list.append(gene)
+    """
+    gene2irav_info = {}
+    with pysam.VariantFile(args.input_vcf) as vcf_h:
+        for record in vcf_h.fetch():
+            vchr, vpos = record.contig, record.pos
+            vgene = record.info["GENE"]   
+            gene2irav_info[vgene] = vchr, vpos
+
 
     genome_id, is_grc = check_refgenome(args.input_bam)
     annot_utils.gene.make_gene_info(args.output_bam + ".tmp.refGene.bed.gz", "refseq", genome_id, is_grc, False)
@@ -140,6 +149,7 @@ def filt_bam_main(args):
     gene2chr = {}
     gene2start = {}
     gene2end = {}
+    """
     with gzip.open(args.output_bam + ".tmp.refGene.bed.gz", 'rt') as hin:
         for line in hin:
             F = line.rstrip('\n').split('\t')
@@ -149,6 +159,19 @@ def filt_bam_main(args):
                     gene2start[F[3]] = F[1]
                 if F[3] not in gene2end or int(F[2]) > int(gene2end[F[3]]):
                     gene2end[F[3]] = F[2]
+    """
+
+    with gzip.open(args.output_bam + ".tmp.refGene.bed.gz", 'rt') as hin:
+        for line in hin:
+            F = line.rstrip('\n').split('\t')
+            if F[3] in gene2irav_info:
+                vchr, vpos = gene2irav_info[F[3]]
+                if vchr == F[0] and int(vpos) >= int(F[1]) and int(vpos) <= int(F[2]):
+                    gene2chr[F[3]] = F[0]
+                    if F[3] not in gene2start or int(F[1]) < int(gene2start[F[3]]):
+                        gene2start[F[3]] = F[1]
+                    if F[3] not in gene2end or int(F[2]) > int(gene2end[F[3]]):
+                        gene2end[F[3]] = F[2]
 
     region_list = []
     for gene in gene2chr:
