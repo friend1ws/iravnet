@@ -189,7 +189,7 @@ def filt_bam_main(args):
     hout.close()
 
     hout = open(args.output_bam + ".tmp.unsorted.rmdup.sam", 'w')
-    subprocess.check_call(["sort", "-u", "-k1,1", args.output_bam + ".tmp.unsorted.sam"], stdout = hout)
+    subprocess.check_call(["sort", "-u", args.output_bam + ".tmp.unsorted.sam"], stdout = hout)
 
 
     hout = open(args.output_bam + ".tmp.unsorted2.sam", 'w')
