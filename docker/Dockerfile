@@ -55,8 +55,8 @@ ENV LD_LIBRARY_PATH /usr/local/lib:$LD_LIBRARY_PATH
 
 RUN pwd
 
-RUN wget https://github.com/friend1ws/iravnet/archive/v0.1.0b14.tar.gz && \
-    tar zxvf v0.1.0b14.tar.gz && \
-    cd iravnet-0.1.0b14 && \
+RUN wget https://github.com/friend1ws/iravnet/archive/v0.1.0b15.tar.gz && \
+    tar zxvf v0.1.0b15.tar.gz && \
+    cd iravnet-0.1.0b15 && \
     pip3 install . 
 
