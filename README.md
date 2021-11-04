@@ -9,9 +9,16 @@ intron retention associated variant detection project
 
 ### Binary programs
 
-
+[samtools](http://www.htslib.org/), [SSW Library](https://github.com/mengyao/Complete-Striped-Smith-Waterman-Library)
 
 ### Python
 pysam, [annot_utils](https://github.com/friend1ws/annot_utils), [intron_retention_utils](https://github.com/friend1ws/intron_retention_utils)
 
-[SSW Library](https://github.com/mengyao/Complete-Striped-Smith-Waterman-Library) (This became optional since version 0.2.0. We have changed the main engine of Smith-Waterman algorithm to parasail.)
+### Install
+
+```
+wget https://github.com/friend1ws/iravnet/archive/v0.1.0b15.tar.gz
+tar zxvf v0.1.0b15.tar.gz
+cd iravnet-0.1.0b15
+python3 -m pip install .
+```
