@@ -42,8 +42,9 @@ def annotate_vcf(input_vcf, output_vcf, gnomad_exome, gnomad_genome, clinvar):
 
             if not header_end_flag: continue
 
-            irav_record = line
+            # irav_record = line
             F = line.split('\t')
+            irav_record = F[7]
 
             if gnomad_exome is not None: 
 
@@ -122,8 +123,9 @@ def annotate_vcf(input_vcf, output_vcf, gnomad_exome, gnomad_genome, clinvar):
                 irav_record = irav_record + ";CLNV_MOTIF=" + CLNV_MOTIF + ";CLNV_SIG_MOTIF=" + CLNV_SIG_MOTIF
 
 
-                                 
-            print(irav_record, file = hout)
+            print_record = '\t'.join(F[:7]) + '\t' + irav_record
+            if len(F) > 8: print_record = print_record + '\t' + '\t'.join(F[8:])                     
+            print(print_record, file = hout)
 
     hout.close()
 
