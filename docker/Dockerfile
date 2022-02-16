@@ -37,8 +37,8 @@ RUN wget https://github.com/mengyao/Complete-Striped-Smith-Waterman-Library/arch
 
 ENV LD_LIBRARY_PATH /Complete-Striped-Smith-Waterman-Library-1.1/src:$LD_LIBRARY_PATH
 
-RUN pip3 install --upgrade pip
-RUN pip3 install --upgrade setuptools
+RUN pip3 install pip==20.3
+RUN pip3 install setuptools==50.1.0
 
 ENV HTSLIB_LIBRARY_DIR /usr/local/lib
 ENV HTSLIB_INCLUDE_DIR /usr/local/include
@@ -55,8 +55,8 @@ ENV LD_LIBRARY_PATH /usr/local/lib:$LD_LIBRARY_PATH
 
 RUN pwd
 
-RUN wget https://github.com/friend1ws/iravnet/archive/v0.1.0b15.tar.gz && \
-    tar zxvf v0.1.0b15.tar.gz && \
-    cd iravnet-0.1.0b15 && \
+RUN wget https://github.com/friend1ws/iravnet/archive/v0.1.0b16.tar.gz && \
+    tar zxvf v0.1.0b16.tar.gz && \
+    cd iravnet-0.1.0b16 && \
     pip3 install . 
 
