@@ -22,3 +22,7 @@ tar zxvf v0.1.0b15.tar.gz
 cd iravnet-0.1.0b15
 python3 -m pip install .
 ```
+
+## Tutorial
+
+See this [page](https://github.com/friend1ws/iravnet/wiki/Tutorial)
